@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="week-two-sq012-ikechiU" />
         <module name="WeekTwoTask" />
       </profile>
     </annotationProcessing>
