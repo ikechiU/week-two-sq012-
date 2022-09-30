@@ -2,13 +2,17 @@ package model;
 
 public class Product {
     private String name;
+    private String category;
+    private String quantity;
     private String manufactureDate;
-    private String bestBefore;
+    private String expiryDate;
 
-    public Product(String name, String manufactureDate, String bestBefore) {
+    public Product(String name, String category, String quantity, String manufactureDate, String expiryDate) {
         this.name = name;
+        this.category = category;
+        this.quantity = quantity;
         this.manufactureDate = manufactureDate;
-        this.bestBefore = bestBefore;
+        this.expiryDate = expiryDate;
     }
 
     public Product() {
@@ -23,6 +27,22 @@ public class Product {
         this.name = name;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
+
     public String getManufactureDate() {
         return manufactureDate;
     }
@@ -31,11 +51,11 @@ public class Product {
         this.manufactureDate = manufactureDate;
     }
 
-    public String getBestBefore() {
-        return bestBefore;
+    public String getExpiryDate() {
+        return expiryDate;
     }
 
-    public void setBestBefore(String bestBefore) {
-        this.bestBefore = bestBefore;
+    public void setExpiryDate(String expiryDate) {
+        this.expiryDate = expiryDate;
     }
 }

@@ -5,8 +5,7 @@ import service.StoreDBService;
 
 public class StoreDBImpl implements StoreDBService {
     @Override
-    public Store getStoreProducts() {
-        ProductsDBImpl productsDBImpl = new ProductsDBImpl();
-        return new Store(productsDBImpl.getProducts());
+    public Store getStoreProducts(ProductsDBImpl productsDB) {
+        return new Store(productsDB.getProducts());
     }
 }
