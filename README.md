@@ -5,3 +5,5 @@ Reading product data from an Excel sheet/CSV file and storing it as an array of 
 ![UML](src/main/java/utils/img/uml.png)
 
 ![UML DETAILS](src/main/java/utils/img/uml_details.png)
+
+![UML_DEPENDENCIES](src/main/java/utils/img/uml_dependencies.png)
