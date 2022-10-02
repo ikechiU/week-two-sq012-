@@ -7,13 +7,59 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Docs {
 
+    private static boolean skipFirst = false;
+
+    public static List<String[]> readCSVUsingScanner(String csvFile) {
+        List<String[]> returnValue = new ArrayList<>();
+
+        try {
+            Scanner scanner = new Scanner(new File(csvFile));
+            while (scanner.hasNextLine()) {
+                if (skipFirst) {
+                    String[] rowArr = scanner.nextLine().split(",");
+                    returnValue.add(rowArr);
+                }
+                skipFirst = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return returnValue;
+    }
+
+    public static List<String[]> readCSVUsingBufferedReader(String csvFile) {
+        List<String[]> returnValue = new ArrayList<>();
+        String line = "";
+
+        try {
+            FileReader filereader = new FileReader(csvFile);
+            BufferedReader bufferedReader = new BufferedReader(filereader);
+             while ((line = bufferedReader.readLine()) != null) {
+                 if (skipFirst) {
+                     String[] rowArr = line.split(",");
+                     returnValue.add(rowArr);
+                 }
+                 skipFirst = true;
+             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return returnValue;
+    }
+
+    //Using Apache POI Library
     public static String[][] readExcelSheet(String excelFile) {
         String[][] dataTable = null;
         try {
@@ -40,6 +86,8 @@ public class Docs {
         return dataTable;
     }
 
+
+    //Using Opencsv Library
     public static List<String[]> readCSV(String csvFile) {
         List<String[]> returnValue = new ArrayList<>();
 

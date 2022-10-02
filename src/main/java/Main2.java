@@ -11,35 +11,69 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Main2 {
-    private static final ArrayList<Product> products = new ArrayList<>();
+public class Main2 extends FileChooser {
+    private final JFileChooser jFileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+    private final FileNameExtensionFilter restrict = new FileNameExtensionFilter("Only .xlsx or .csv files", "xlsx", "csv");
+    private final ArrayList<Product> products = new ArrayList<>();
 
     public static void main(String[] args) {
-        //String file = "/Users/decagon/Desktop/Products.xlsx";
-        String file = "/Users/decagon/Desktop/ProductsCSV.csv";
-
-        String fileType = file.substring(file.lastIndexOf("."));
-
-        if (fileType.equals(".xlsx")) {
-            var result = Docs.readExcelSheet(file);
-            System.out.println(Arrays.deepToString(result));
-            for (int i = 1; i < result.length; i++) {
-                products.add(new Product(result[i][0], result[i][1], result[i][2], result[i][3], result[i][4]));
-            }
-        }
-
-        if (fileType.equals(".csv")) {
-            var result = Docs.readCSV(file);
-            for (String[] arrayProducts : result) {
-                System.out.println(Arrays.toString(arrayProducts));
-                products.add(new Product(arrayProducts[0], arrayProducts[1], arrayProducts[2], arrayProducts[3], arrayProducts[4]));
-            }
-        }
-
-        storeActions(products);
+        Main2 main = new Main2();
+        main.openFileChooser(main);
     }
 
-    private static void storeActions(ArrayList<Product> products) {
+    @Override
+    public void actionPerformed(ActionEvent evt) {
+        String com = evt.getActionCommand();
+
+        if (com.equals("save")) {
+            onSaveButtonClick(file);
+        } else {
+            onOpenButtonClick();
+        }
+    }
+
+    private void onOpenButtonClick() {
+        jFileChooser.setAcceptAllFileFilterUsed(false);
+        jFileChooser.setDialogTitle("Select a .xlsx or .csv file");
+        jFileChooser.addChoosableFileFilter(restrict);
+
+        int r = jFileChooser.showOpenDialog(null);
+        if (r != JFileChooser.APPROVE_OPTION)
+            jLabel.setText("the user cancelled the operation");
+
+        if (r == JFileChooser.APPROVE_OPTION) {
+            file = jFileChooser.getSelectedFile().getAbsolutePath();
+            jLabel.setText(file);
+        }
+    }
+
+    private void onSaveButtonClick(String file) {
+        if (file.isBlank())
+            System.out.println("No file was selected");
+        else {
+            String fileType = file.substring(file.lastIndexOf("."));
+
+            if (fileType.equals(".xlsx")) {
+                var result = Docs.readExcelSheet(file);
+                System.out.println(Arrays.deepToString(result));
+                for (int i = 1; i < result.length; i++) {
+                    products.add(new Product(result[i][0], result[i][1], result[i][2], result[i][3], result[i][4]));
+                }
+            }
+
+            if (fileType.equals(".csv")) {
+                var result = Docs.readCSV(file);
+                for (String[] arrayProducts : result) {
+                    System.out.println(Arrays.toString(arrayProducts));
+                    products.add(new Product(arrayProducts[0], arrayProducts[1], arrayProducts[2], arrayProducts[3], arrayProducts[4]));
+                }
+            }
+            jFrame.dispose();
+            storeActions(products);
+        }
+    }
+
+    private void storeActions(ArrayList<Product> products) {
         ProductsDBImpl productsDB = new ProductsDBImpl();
         productsDB.setProducts(products);
 
