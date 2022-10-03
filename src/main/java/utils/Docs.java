@@ -17,19 +17,14 @@ import java.util.Scanner;
 
 public class Docs {
 
-    private static boolean skipFirst = false;
-
-    public static List<String[]> readCSVUsingScanner(String csvFile) {
+    public static List<String[]> readCSVUsingScanner(File csvFile) {
         List<String[]> returnValue = new ArrayList<>();
 
         try {
-            Scanner scanner = new Scanner(new File(csvFile));
+            Scanner scanner = new Scanner(csvFile);
             while (scanner.hasNextLine()) {
-                if (skipFirst) {
-                    String[] rowArr = scanner.nextLine().split(",");
-                    returnValue.add(rowArr);
-                }
-                skipFirst = true;
+                String[] rowArr = scanner.nextLine().split(",");
+                returnValue.add(rowArr);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -38,7 +33,7 @@ public class Docs {
         return returnValue;
     }
 
-    public static List<String[]> readCSVUsingBufferedReader(String csvFile) {
+    public static List<String[]> readCSVUsingBufferedReader(File csvFile) {
         List<String[]> returnValue = new ArrayList<>();
         String line = "";
 
@@ -46,11 +41,8 @@ public class Docs {
             FileReader filereader = new FileReader(csvFile);
             BufferedReader bufferedReader = new BufferedReader(filereader);
              while ((line = bufferedReader.readLine()) != null) {
-                 if (skipFirst) {
-                     String[] rowArr = line.split(",");
-                     returnValue.add(rowArr);
-                 }
-                 skipFirst = true;
+                 String[] rowArr = line.split(",");
+                 returnValue.add(rowArr);
              }
         } catch (Exception e) {
             e.printStackTrace();

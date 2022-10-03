@@ -31,7 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
         if (product == null)
             throw new ProductServiceException(ErrorMessages.PRODUCT_NOT_AVAILABLE.getErrorMessage());
 
-        if (product.getCategory().equals("OUT OF STOCK"))
+        if (product.getQuantity().equals("OUT OF STOCK"))
             throw new ProductServiceException(ErrorMessages.OUT_OF_STOCK.getErrorMessage());
 
         customer.setProductYear(year);

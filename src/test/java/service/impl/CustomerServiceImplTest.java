@@ -12,17 +12,21 @@ import service.TestProductImplDB;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CustomerServiceImplTest {
-    TestProductImplDB productImplDB = new TestProductImplDB();
-    private final Store storeProducts = new StoreDBImpl().getStoreProducts(productImplDB.getProductDB());
-    Product product = storeProducts.getProducts().get(0);
-    Product product1 = storeProducts.getProducts().get(1);
-    Product product2 = storeProducts.getProducts().get(2);
+    private Store storeProducts;
+    Product product;
+    Product product1;
+    Product product2;
     CustomerServiceImpl customerService;
     Customer customer;
     Customer customer2;
 
     @BeforeEach
     void init() {
+        TestProductImplDB productImplDB = new TestProductImplDB();
+        storeProducts = new StoreDBImpl().getStoreProducts(productImplDB.getProductDB());
+        product = storeProducts.getProducts().get(0);
+        product1 = storeProducts.getProducts().get(1);
+        product2 = storeProducts.getProducts().get(2);
         customerService = new CustomerServiceImpl();
         customer = new Customer("Henry", "Male", 43);
         customer2 = new Customer("Angela", "Female", 21);
@@ -118,7 +122,7 @@ class CustomerServiceImplTest {
                 year3 = aProduct.getManufactureDate();
             }
         }
-        assertEquals("2030", String.valueOf(customerService.extractYear(year3)));
+        assertEquals("2022", String.valueOf(customerService.extractYear(year3)));
     }
 
 }

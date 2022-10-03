@@ -3,18 +3,21 @@ import service.impl.*;
 import utils.Docs;
 import utils.Qualification;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Main {
     private static final ArrayList<Product> products = new ArrayList<>();
 
     public static void main(String[] args) {
-        String file = "/Users/decagon/Desktop/ProductsCSV.csv";
+        File file = new File("src/main/resources/ProductsCSV.csv");
 
-        var result = Docs.readCSVUsingScanner(file);
-        //var result = Docs.readCSVUsingBufferedReader(file);
-        for (String[] arrayProducts : result) {
+        var productList = Docs.readCSVUsingScanner(file);
+        //var productList = Docs.readCSVUsingBufferedReader(file);
+        for (int i = 1; i < productList.size(); i++) {
+            String[] arrayProducts = productList.get(i);
             System.out.println(Arrays.toString(arrayProducts));
             products.add(new Product(arrayProducts[0], arrayProducts[1], arrayProducts[2], arrayProducts[3], arrayProducts[4]));
         }
@@ -29,7 +32,7 @@ public class Main {
         Manager manager = new Manager("Michael", "Male", 32, 1);
         Applicant applicant = new Applicant("Doris", "Female", 25, Qualification.SSCE.name());
         Applicant applicant1 = new Applicant("Smith", "Male", 28, Qualification.BSC.name());
-        Staff cashier = new Cashier("Doris", "Female", 25, 2); //Polymorphism
+        Cashier cashier = new Cashier("Doris", "Female", 25, 2); //Polymorphism
         Customer customer = new Customer("Henry", "Male", 43);
         Customer customer3 = new Customer("Agatha", "Female", 30);
 
@@ -49,7 +52,7 @@ public class Main {
         String customerBuyResult = customerService.buy(customer, "RICE", storeProducts);
         System.out.println(customerBuyResult);
 
-        ((Cashier) cashier).setCustomer(customer);
+        cashier.setCustomer(customer);
         String cashierSellResult = cashierService.sell((Cashier) cashier, customer.getProductName());
         System.out.println(cashierSellResult + "\n");
 
